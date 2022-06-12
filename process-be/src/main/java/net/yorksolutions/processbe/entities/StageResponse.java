@@ -1,6 +1,7 @@
 package net.yorksolutions.processbe.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +21,14 @@ public class StageResponse {
 
     public StageResponse() {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StageResponse)) return false;
+        StageResponse that = (StageResponse) o;
+        return Objects.equals(id, that.id) && Objects.equals(getProcessToken(), that.getProcessToken()) && Objects.equals(getStageId(), that.getStageId()) && Objects.equals(getResponseText(), that.getResponseText());
     }
 
     public ProcessToken getProcessToken() {

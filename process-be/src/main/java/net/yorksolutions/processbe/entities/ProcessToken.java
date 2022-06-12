@@ -30,6 +30,9 @@ public class ProcessToken {
         this.isFinished = false;
     }
 
+    public String getToken() {
+        return token;
+    }
 
     public void setFinished(boolean finished) {
         isFinished = finished;

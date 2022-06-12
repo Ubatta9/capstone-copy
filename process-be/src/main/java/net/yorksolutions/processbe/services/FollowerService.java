@@ -6,31 +6,26 @@ import net.yorksolutions.processbe.entities.Stage;
 import net.yorksolutions.processbe.entities.StageResponse;
 import net.yorksolutions.processbe.repositories.ProcessRepository;
 import net.yorksolutions.processbe.repositories.ProcessTokenRepository;
-import net.yorksolutions.processbe.repositories.StageRepository;
 import net.yorksolutions.processbe.repositories.StageResponseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class FollowerService {
 
-    private StageRepository stageRepository;
-    private ProcessRepository processRepository;
+    private final ProcessRepository processRepository;
 
-    private StageResponseRepository stageResponseRepository;
+    private final StageResponseRepository stageResponseRepository;
 
-    private ProcessTokenRepository processTokenRepository;
+    private final ProcessTokenRepository processTokenRepository;
 
     @Autowired
-    public FollowerService(StageRepository stageRepository, ProcessRepository processRepository
+    public FollowerService( ProcessRepository processRepository
             , StageResponseRepository stageResponseRepository, ProcessTokenRepository processTokenRepository) {
-        this.stageRepository = stageRepository;
         this.processRepository = processRepository;
         this.stageResponseRepository = stageResponseRepository;
         this.processTokenRepository = processTokenRepository;
@@ -57,7 +52,7 @@ public class FollowerService {
         stageResponseRepository.save(new StageResponse(processToken, stageId, response));
 
 
-        List<Stage> stageList = processRepository.findById(processToken.getProcess().getId()).get().getStageList();
+        List<Stage> stageList = processRepository.findById(processToken.getProcess().getId()).get().getStages();
 
         List<Long> stageIds = stageList.stream().map(stage -> stage.getId()).collect(Collectors.toList());
 

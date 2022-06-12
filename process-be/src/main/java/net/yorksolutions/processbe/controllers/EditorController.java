@@ -35,19 +35,23 @@ public class EditorController {
 
     @PostMapping(value = "addProcess", produces = "application/json")
     @CrossOrigin
-    public void addProcess(@RequestBody Process process) {
-        editorService.addProcess(process);
+    public Long addProcess(@RequestBody Process process) {
+        return editorService.addProcess(process);
     }
 
     @PutMapping(value = "editProcess", produces = "application/json")
     @CrossOrigin
-    public Optional<Process> updateProcess(@RequestParam Long processId, @RequestBody Process newProcess) {
-        return editorService.updateProcess(processId, newProcess);
+    public Process updateProcess(@RequestParam Long processId, @RequestBody Process newProcess) {
+        return editorService.updateProcess(processId, newProcess).get();
     }
 
     @DeleteMapping(value = "deleteProcess")
     @CrossOrigin
     public void deleteProcess(@RequestParam Long processId) {
+
         editorService.deleteProcess(processId);
+    }
+    public void setEditorService(EditorService editorService){
+        this.editorService = editorService;
     }
 }

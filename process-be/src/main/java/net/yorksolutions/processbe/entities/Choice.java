@@ -9,6 +9,15 @@ public class Choice {
     Long id;
     String choiceText;
 
+    public Choice(Long id, String choiceText) {
+        this.id = id;
+        this.choiceText = choiceText;
+    }
+
+    public Choice() {
+
+    }
+
     public Long getId() {
         return id;
     }

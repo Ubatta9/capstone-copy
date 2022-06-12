@@ -14,13 +14,13 @@ public class Process {
 
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "process_id")
-    public List<Stage> stageList;
+    public List<Stage> stages;
 
     public String title;
 
-    public Process(String title, List stageList) {
+    public Process(String title, List stages) {
         this.title = title;
-        this.stageList = stageList;
+        this.stages = stages;
     }
 
     public Process() {
@@ -39,8 +39,8 @@ public class Process {
         return id;
     }
 
-    public List<Stage> getStageList() {
-        return stageList;
+    public List<Stage> getStages() {
+        return stages;
     }
 
     @Override
@@ -54,5 +54,9 @@ public class Process {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getTitle());
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -9,48 +9,64 @@ public class Stage {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
-    public String stageDescription;
-    public String responseType;
+    public String name;
+    public String type;
+
+    @Column(name = "stage_order")
+    public int order;
 
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "stage_id")
-    public List<Choice> choiceList;
+    public List<Choice> choices;
 
-    public Stage(String stageDescription, String responseType, List choiceList) {
-        this.stageDescription = stageDescription;
-        this.responseType = responseType;
-        this.choiceList = choiceList;
+    public Stage(String name,int order, String type, List choices) {
+        this.order = order;
+        this.name = name;
+        this.type = type;
+        this.choices = choices;
     }
 
     public Stage() {
 
     }
 
-    public List<Choice> getChoiceList() {
-        return choiceList;
+    public List<Choice> getChoices() {
+        return choices;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getStageDescription() {
-        return stageDescription;
+    public String getName() {
+        return name;
     }
 
-    public String getResponseType() {
-        return responseType;
+    public String getType() {
+        return type;
     }
 
-    public void setStageDescription(String stageDescription) {
-        this.stageDescription = stageDescription;
+    public void setName(String stageDescription) {
+        this.name = stageDescription;
     }
 
-    public void setResponseType(String responseType) {
-        this.responseType = responseType;
+    public void setType(String responseType) {
+        this.type = responseType;
     }
 
-    public void setChoiceList(List<Choice> choiceList) {
-        this.choiceList = choiceList;
+    public void setChoices(List<Choice> choiceList) {
+        this.choices = choiceList;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }

@@ -11,14 +11,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class EditorService {
-    private ProcessRepository processRepository;
-    private ProcessTokenRepository processTokenRepository;
+    final private ProcessRepository processRepository;
+    final private ProcessTokenRepository processTokenRepository;
 
-    private StageResponseRepository stageResponseRepository;
+    final private StageResponseRepository stageResponseRepository;
 
     @Autowired
     public EditorService(@NonNull ProcessRepository processRepository,
@@ -37,13 +36,14 @@ public class EditorService {
         return stageResponseRepository.findAllByProcessTokenIsFinished(true);
     }
 
-    public void addProcess(Process process) {
-        processRepository.save(process);
+    public Long addProcess(Process process) {
+        Process savedProcess = processRepository.save(process);
+        return savedProcess.getId();
     }
 
     private Process updateWith(Process oldProcess, Process newProcess) {
         oldProcess.title = newProcess.title;
-        oldProcess.stageList = newProcess.stageList;
+        oldProcess.stages = newProcess.stages;
         return oldProcess;
     }
 
@@ -55,6 +55,8 @@ public class EditorService {
     }
 
     public void deleteProcess(Long processId) {
+
         processRepository.deleteById(processId);
     }
+
 }
