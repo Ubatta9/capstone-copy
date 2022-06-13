@@ -12,22 +12,22 @@ export const ADD_EDIT_STAGE_DETAILS = "editors/add/ADD_STAGE_DETAILS"
 export const CANCEL_PROCESS = "editors/add/CANCEL_PROCESS"
 export const SUBMIT_PROCESS = "editors/add/SUBMIT_PROCESS"
 export const ADD_STAGE = "editors/add/ADD_STAGE"
-export const DELETE_PROCESS ='editors/DELETE_PROCESS'
+export const DELETE_PROCESS = 'editors/DELETE_PROCESS'
 export const SHOW_FINISHED_PROCESSES = 'editors/SHOW_FINISHED_PROCESSES'
 
 const initialState = {
-    isEditor:false,
-    isFollower:false,
+    isEditor: false,
+    isFollower: false,
     showAddEditProcess: false,
     showFinishedProcess: false,
-    editProcess:{},
-    processes:[],
+    editProcess: {},
+    processes: [],
     finishedProcesses: [],
-    currentProcess:{title:'', processId:null, stages:[]}
+    currentProcess: {title: '', processId: null, stages: []}
 }
 
-export default function reducer(state=initialState, action){
-    switch(action?.type){
+export default function reducer(state = initialState, action) {
+    switch (action?.type) {
         case EDITOR_START:
             return {
                 ...state,
@@ -36,30 +36,30 @@ export default function reducer(state=initialState, action){
             }
         case EDITOR_SUCCESS:
             return {
-               ...state,
-               isEditor: false,
+                ...state,
+                isEditor: false,
 
             }
         case FOLLOWER_START:
-            return{
+            return {
                 ...state,
                 isFollower: true,
                 isEditor: false
             }
         case FOLLOWER_SUCCESS:
-            return{
+            return {
                 ...state,
-                isFollower:false
+                isFollower: false
             }
         case EDITOR_HOME_START:
             return {
                 ...state,
-               fetching: true
+                fetching: true
             }
         case EDITOR_HOME_SUCCESS:
             return {
                 ...state,
-                fetching:false,
+                fetching: false,
                 processes: action.payload
             }
         case UPDATE_PROCESSES:
@@ -73,15 +73,15 @@ export default function reducer(state=initialState, action){
                 ...state,
                 finishedProcesses: action.payload
             }
-        case SHOW_ADD_EDIT_PROCESS:{
+        case SHOW_ADD_EDIT_PROCESS: {
             return {
                 ...state,
                 showAddEditProcess: true,
-                showFinishedProcess : false,
+                showFinishedProcess: false,
                 currentProcess: {
                     title: action.payload.title || "",
                     processId: action.payload.id,
-                    stages: action.payload.stages|| [{
+                    stages: action.payload.stages || [{
                         type: 'Boolean',
                         stage_order: 0
                     }]
@@ -89,9 +89,9 @@ export default function reducer(state=initialState, action){
             }
         }
         case ADD_EDIT_PROCESS_NAME:
-            return{//not taking new title
+            return {//not taking new title
                 ...state,
-                currentProcess:{
+                currentProcess: {
                     ...state.currentProcess,
                     title: action.payload
                 }
@@ -99,21 +99,22 @@ export default function reducer(state=initialState, action){
 
         case ADD_EDIT_STAGE_DETAILS:
             const stages = [...state.currentProcess.stages];
-            let key  = action.payload.stageKey;
+            let key = action.payload.stageKey;
             let val = action.payload.stageValue;
-            if(key.includes('choices')){
+            if (key.includes('choices')) {
                 const keys = key.split(',')
-                if(!stages[action.payload.stageIndex]["choices"]){
+                if (!stages[action.payload.stageIndex]["choices"]) {
                     stages[action.payload.stageIndex]["choices"] = [];
                 }
                 stages[action.payload.stageIndex][keys[0]][keys[1]] = {
-                    choice_text:val
+                    ...stages[action.payload.stageIndex][keys[0]][keys[1]],
+                    choice_text: val
                 };
-            }else{
+            } else {
                 stages[action.payload.stageIndex][key] = val;
             }
 
-            return{
+            return {
                 ...state,
                 currentProcess: {
                     ...state.currentProcess,
@@ -122,7 +123,7 @@ export default function reducer(state=initialState, action){
             }
 
         case ADD_STAGE : {
-            const stages =  state.currentProcess.stages;
+            const stages = state.currentProcess.stages;
             stages.push({
                 type: "Boolean",
                 stage_order: stages.length,
@@ -141,31 +142,32 @@ export default function reducer(state=initialState, action){
                 ...state,
                 currentProcess: {},
                 showAddEditProcess: false,
-                showFinishedProcess : false
+                showFinishedProcess: false
 
             }
         }
-        case DELETE_PROCESS:{
+        case DELETE_PROCESS: {
             return {
                 ...state,
                 processToDelete: action.payload
             }
         }
-        case SHOW_FINISHED_PROCESSES :{
+        case SHOW_FINISHED_PROCESSES : {
             return {
                 ...state,
-                showFinishedProcess : true,
+                showFinishedProcess: true,
                 showAddEditProcess: false,
 
             }
         }
         default:
-            return{
+            return {
                 ...state
             }
     }
 }
-export function initiateEditor(_fetch=fetch) {
+
+export function initiateEditor(_fetch = fetch) {
     return async function sideEffect(dispatch) {
         dispatch({type: EDITOR_HOME_START})
         const url = `http://localhost:8080/editor/getAllProcesses`
@@ -177,13 +179,14 @@ export function initiateEditor(_fetch=fetch) {
         }
     }
 }
+
 export function initiateAddProcess(_fetch = fetch) {
-    return async function addProcessSideEffect(dispatch, getState){
+    return async function addProcessSideEffect(dispatch, getState) {
         const store = getState();
         const process = store.editors.currentProcess;
         const url = `http://localhost:8080/editor/addProcess`;
-        try{
-            const addResponse = await _fetch(url,{
+        try {
+            const addResponse = await _fetch(url, {
                 method: 'POST', headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'
@@ -191,55 +194,56 @@ export function initiateAddProcess(_fetch = fetch) {
                     ...process
                 })
             });
-            if(addResponse.ok){
+            if (addResponse.ok) {
                 const result = await addResponse.json();
                 const resultId = result.id;
-               // dispatch({type:SHOW_ADD_EDIT_PROCESS, payload:resultId});
+                // dispatch({type:SHOW_ADD_EDIT_PROCESS, payload:resultId});
                 dispatch(initiateEditor());
-                dispatch({type:SUBMIT_PROCESS})
+                dispatch({type: SUBMIT_PROCESS})
 
             }
-        }catch (e) {
+        } catch (e) {
             console.error(e)
         }
 
     }
 }
+
 export function initiateEditProcess(_fetch = fetch) {
-    return async function editProcessSideEffect(dispatch, getState){
+    return async function editProcessSideEffect(dispatch, getState) {
         const store = getState();
         const process = store.editors.currentProcess;
         const {processId} = process;
         const url = `http://localhost:8080/editor/editProcess?processId=${processId}`;
 
-        try{
-            const editResponse = await _fetch(url,{
+        try {
+            const editResponse = await _fetch(url, {
                 method: 'PUT', headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'
                 }, body: JSON.stringify({
-                   ...process,
+                    ...process,
                     processId
 
                 })
             });
-            if(editResponse.ok){
+            if (editResponse.ok) {
                 const editResult = await editResponse.json();
-                dispatch({type:SHOW_ADD_EDIT_PROCESS, payload:editResult});
+                dispatch({type: SHOW_ADD_EDIT_PROCESS, payload: editResult});
                 dispatch(initiateEditor());
-                dispatch({type:SUBMIT_PROCESS})
+                dispatch({type: SUBMIT_PROCESS})
             }
-        }
-        catch(e){
+        } catch (e) {
             console.error(e)
         }
     }
 }
+
 export function initiateDeleteProcess(_fetch = fetch) {
-    return async function deleteProcessSideEffect(dispatch, getState){
+    return async function deleteProcessSideEffect(dispatch, getState) {
         const store = getState()
         const id = store.editors.processToDelete;
-        if(!id) return;
+        if (!id) return;
         const url = `http://localhost:8080/editor/deleteProcess?processId=${id}`;
         try {
             const addResponse = await _fetch(url, {
@@ -249,7 +253,7 @@ export function initiateDeleteProcess(_fetch = fetch) {
                 }
             });
             if (addResponse.ok) {
-                dispatch({type:DELETE_PROCESS, payload:null})
+                dispatch({type: DELETE_PROCESS, payload: null})
                 dispatch(initiateEditor());
             }
         } catch (e) {
@@ -257,16 +261,17 @@ export function initiateDeleteProcess(_fetch = fetch) {
         }
     }
 }
-export function initiateFinishedProcessFollowings(_fetch=fetch) {
+
+export function initiateFinishedProcessFollowings(_fetch = fetch) {
     return async function sideEffect(dispatch) {
 
-       // dispatch({type: EDITOR_HOME_START})
+        // dispatch({type: EDITOR_HOME_START})
         const url = `http://localhost:8080/editor/getFinishedProcessFollowings`
         const response = await _fetch(url)
 
         if (response.ok) {
             const finishedResult = await response.json()
-            const finishedProcesses = finishedResult.map(res=>res.processToken.process)
+            const finishedProcesses = finishedResult.map(res => res.processToken.process)
             dispatch({type: UPDATE_FINISHED_PROCESSES, payload: finishedProcesses})
         }
     }
