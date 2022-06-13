@@ -5,7 +5,7 @@ import Homepage from "./components/HomePage";
 import {Container} from "react-bootstrap";
 
 
-function App({_useSelector = useSelector, HomepageC = Homepage}) {
+function App({HomepageC = Homepage}) {
   return <Container>
     <HomepageC/>
   </Container>

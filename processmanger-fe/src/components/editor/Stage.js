@@ -12,34 +12,34 @@ export default function Stage({ ind:stageIndex, _useDispatch = useDispatch, _use
            <h5>Stage {stageIndex+1}</h5>
             <Form>
                <Form.Group>
-                   <Form.Label>Stage Name</Form.Label>
-                   <Form.Control value={name} onChange={e=>dispatch({type:ADD_EDIT_STAGE_DETAILS, payload:{stageIndex,stageKey:'name', stageValue:e.target.value}})} />
+                   <Form.Label htmlFor="stage.name">Stage Name</Form.Label>
+                   <Form.Control id="stage.name" value={name||''} onChange={e=>dispatch({type:ADD_EDIT_STAGE_DETAILS, payload:{stageIndex,stageKey:'name', stageValue:e.target.value}})} />
                </Form.Group>
-                <Form.Label>Stage Order</Form.Label>
-               <Form.Control value={stage_order} onChange={e=>dispatch({type:ADD_EDIT_STAGE_DETAILS, payload:{stageIndex,stageKey:'stage_order', stageValue:e.target.value}})} />
+                <Form.Label htmlFor='stage.order'>Stage Order</Form.Label>
+               <Form.Control id='stage.order' value={stage_order||''} onChange={e=>dispatch({type:ADD_EDIT_STAGE_DETAILS, payload:{stageIndex,stageKey:'stage_order', stageValue:e.target.value}})} />
                <Form.Group>
-                   <Form.Label>Select The Response Type</Form.Label>
-               <Form.Select value={type} onChange={e=>dispatch({type:ADD_EDIT_STAGE_DETAILS, payload:{stageIndex,stageKey:'type', stageValue:e.target.value}})}>
-                   <option value={"Boolean"}>Boolean</option>
-                   <option value={"Feedback"}>Text</option>
-                   <option value={"Multiple Choice"}>Multiple Choice</option>
-               </Form.Select>
+                   <Form.Label htmlFor='stage.type'>Select The Response Type</Form.Label>
+                   <Form.Select id="stage.type" value={type} onChange={e=>dispatch({type:ADD_EDIT_STAGE_DETAILS, payload:{stageIndex,stageKey:'type', stageValue:e.target.value}})}>
+                       <option value={"Boolean"}>Boolean</option>
+                       <option value={"Feedback"}>Text</option>
+                       <option value={"Multiple Choice"}>Multiple Choice</option>
+                   </Form.Select>
                </Form.Group>
                {
                    type==="Multiple Choice"?
                        <Form.Group>
-                           <Form.Label>Multiple Choice</Form.Label>
+                           <Form.Label htmlFor='stage.type'>Multiple Choice</Form.Label>
                            <Form.Group >
-                               <Form.Label>A</Form.Label>
-                               <Form.Control value={choices[0]&&choices[0].choice_text||""} onChange={e=>dispatch({type:ADD_EDIT_STAGE_DETAILS, payload:{stageIndex,stageKey:'choices,0', stageValue:e.target.value}})}/>
+                               <Form.Label htmlFor='stage.choice.a'>A</Form.Label>
+                               <Form.Control id='stage.choice.a' value={choices[0]&&choices[0].choice_text||""} onChange={e=>dispatch({type:ADD_EDIT_STAGE_DETAILS, payload:{stageIndex,stageKey:'choices,0', stageValue:e.target.value}})}/>
                            </Form.Group>
                            <Form.Group >
-                               <Form.Label>B</Form.Label>
-                               <Form.Control value={choices[1]&&choices[1].choice_text||""} onChange={e=>dispatch({type:ADD_EDIT_STAGE_DETAILS, payload:{stageIndex,stageKey:'choices,1', stageValue:e.target.value}})}/>
+                               <Form.Label htmlFor='stage.choice.b'>B</Form.Label>
+                               <Form.Control id='stage.choice.b' value={choices[1]&&choices[1].choice_text||""} onChange={e=>dispatch({type:ADD_EDIT_STAGE_DETAILS, payload:{stageIndex,stageKey:'choices,1', stageValue:e.target.value}})}/>
                            </Form.Group>
                            <Form.Group >
-                               <Form.Label>C</Form.Label>
-                               <Form.Control value={choices[2]&&choices[2].choice_text||""} onChange={e=>dispatch({type:ADD_EDIT_STAGE_DETAILS, payload:{stageIndex,stageKey:'choices,2', stageValue:e.target.value}})}/>
+                               <Form.Label htmlFor='stage.choice.c'>C</Form.Label>
+                               <Form.Control id='stage.choice.c'value={choices[2]&&choices[2].choice_text||""} onChange={e=>dispatch({type:ADD_EDIT_STAGE_DETAILS, payload:{stageIndex,stageKey:'choices,2', stageValue:e.target.value}})}/>
                            </Form.Group>
                        </Form.Group>
                        :<></>

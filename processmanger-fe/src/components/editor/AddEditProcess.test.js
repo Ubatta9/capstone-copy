@@ -89,8 +89,8 @@ it('should showProcess name when we enter it',()=>{
             StageC={()=>{}}
         />);
     expect(screen.getByDisplayValue(currentProcess.title)).toBeInTheDocument()
-
-    //expect(dispatch).toHaveBeenCalledWith({type:ADD_EDIT_PROCESS_NAME, payload:state.currentProcess.title})
-    //userEvent.click(screen.getByTitle('Submit Process'))
-    //expect(dispatch).toHaveBeenCalledWith(initAddProcess)
+    userEvent.type(screen.getByDisplayValue(currentProcess.title),"2")
+    expect(dispatch).toHaveBeenCalledWith({type:ADD_EDIT_PROCESS_NAME, payload:currentProcess.title+'2'})
+    // userEvent.click(screen.getByTitle('Submit Process'))
+    // expect(dispatch).toHaveBeenCalledWith(initEditProcess)
 })

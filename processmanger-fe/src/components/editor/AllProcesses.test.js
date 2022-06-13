@@ -3,7 +3,7 @@ import AllProcesses from "./AllProcesses";
 import userEvent from "@testing-library/user-event";
 import {DELETE_PROCESS, SHOW_ADD_EDIT_PROCESS} from "../../modules/editors";
 
-it('should display all processes',() =>{
+it('should edit processes',() =>{
     const dispatch = jest.fn();
     const initFinish = jest.fn();
     const ret2 = 'another return';
