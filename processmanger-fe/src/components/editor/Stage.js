@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Form} from "react-bootstrap";
 import {ADD_EDIT_STAGE_DETAILS} from "../../modules/editors";
 
-const Stage = ({ ind:stageIndex, _useDispatch = useDispatch, _useSelector = useSelector}) => { // Can we get data from props
+export default function Stage({ ind:stageIndex, _useDispatch = useDispatch, _useSelector = useSelector})  { // Can we get data from props
     const dispatch = _useDispatch();
     const stage = _useSelector((state)=>state.editors.currentProcess.stages[stageIndex])
     const {name = "", stage_order = 0, type="Boolean", choices=[]} = stage;
@@ -50,4 +50,3 @@ const Stage = ({ ind:stageIndex, _useDispatch = useDispatch, _useSelector = useS
     )
 }
 
-export default Stage

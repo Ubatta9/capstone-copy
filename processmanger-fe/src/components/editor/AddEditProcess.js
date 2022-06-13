@@ -10,17 +10,19 @@ import {
 } from "../../modules/editors";
 
 
-export default function AddEditProcess({_useSelector = useSelector,_useDispatch = useDispatch,
-                                           _initiateAddProcess= initiateAddProcess(), _initiateEditProcess = initiateEditProcess()}, StageC=Stage){
-    const dispatch =_useDispatch();
-    const currentProcess = _useSelector(state=>state.editors.currentProcess)
-    const {title='', processId, stages=[]} = currentProcess;
-
-
+export default function AddEditProcess({
+                                           _useSelector = useSelector,
+                                           _useDispatch = useDispatch,
+                                           _initiateAddProcess = initiateAddProcess(),
+                                           _initiateEditProcess = initiateEditProcess()
+                                        ,StageC = Stage}) {
+    const dispatch = _useDispatch();
+    const currentProcess = _useSelector(state => state.editors.currentProcess)
+    const {title = '', processId, stages = []} = currentProcess;
     const onSubmit = () => {
-        if(processId){
+        if (processId) {
             dispatch(_initiateEditProcess)
-        }else {
+        } else {
             dispatch(_initiateAddProcess)
         }
     }
@@ -28,17 +30,26 @@ export default function AddEditProcess({_useSelector = useSelector,_useDispatch 
         <div>
             <Form>
                 <Form.Group>
-                    <Form.Label>Process Name</Form.Label>
-                    <Form.Control value={title} onChange={(e)=>dispatch({type:ADD_EDIT_PROCESS_NAME, payload:e.target.value})}/>
+                    <Form.Label title='Process Name'>Process Name</Form.Label>
+                    <Form.Control value={title}
+                                  onChange={(e) => dispatch({type: ADD_EDIT_PROCESS_NAME, payload: e.target.value})}/>
                 </Form.Group>
 
             </Form>
 
-            {stages.map((stage, ind)=> <StageC
-                key={stage.id||ind} stage={stage} ind={ind} />)}
-            <span style={ {float:"left",  padding: '5px'}}><Button title='Cancel' onClick={()=>dispatch({type:CANCEL_PROCESS})}>Cancel</Button></span>
-            <span style={ {float:"right",  padding: '5px'}}><Button title ='Submit Process'type="primary" onClick={onSubmit}>Submit Process</Button></span>
-            <span style={ {float:"right", padding: '5px'}}><Button title='Add Stage' type="primary" onClick={()=>dispatch({type:ADD_STAGE})}>Add Stage</Button></span>
+
+            {
+
+
+                stages.map((stage, ind) => <StageC
+                    key={ind} stage={stage} ind={ind}/>)
+            }
+            <span style={{float: "left", padding: '5px'}}><Button title='Cancel'
+                                                                  onClick={() => dispatch({type: CANCEL_PROCESS})}>Cancel</Button></span>
+            <span style={{float: "right", padding: '5px'}}><Button title='Submit Process' type="primary"
+                                                                   onClick={onSubmit}>Submit Process</Button></span>
+            <span style={{float: "right", padding: '5px'}}><Button title='Add Stage' type="primary"
+                                                                   onClick={() => dispatch({type: ADD_STAGE})}>Add Stage</Button></span>
 
         </div>
     )
