@@ -16,6 +16,9 @@ public class Stage {
     public int order;
 
     @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "stageId")
+    public List<StageResponse> stageResponseList;
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "stage_id")
     public List<Choice> choices;
 

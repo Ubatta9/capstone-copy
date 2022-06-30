@@ -16,6 +16,10 @@ public class Process {
     @JoinColumn(name = "process_id")
     public List<Stage> stages;
 
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "process_id")
+    public List<ProcessToken> processTokenList;
+
     public String title;
 
     public Process(String title, List stages) {

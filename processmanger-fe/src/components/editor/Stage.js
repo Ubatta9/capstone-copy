@@ -5,7 +5,7 @@ import {ADD_EDIT_STAGE_DETAILS} from "../../modules/editors";
 export default function Stage({ind: stageIndex, _useDispatch = useDispatch, _useSelector = useSelector}) { // Can we get data from props
     const dispatch = _useDispatch();
     const stage = _useSelector((state) => state.editors.currentProcess.stages[stageIndex])
-    const {name = "", stage_order = 0, type = "Boolean", choices = []} = stage;
+    const {name = "", order = 0, type = "Boolean", choices = []} = stage;
     choices.sort((a, b) => a.id < b.id ? -1 : 1);
     return (
         <div style={{margin: '8px'}}>
@@ -19,9 +19,9 @@ export default function Stage({ind: stageIndex, _useDispatch = useDispatch, _use
                     })}/>
                 </Form.Group>
                 <Form.Label htmlFor='stage.order'>Stage Order</Form.Label>
-                <Form.Control id='stage.order' value={stage_order || ''} onChange={e => dispatch({
+                <Form.Control id='stage.order' value={order || ''} onChange={e => dispatch({
                     type: ADD_EDIT_STAGE_DETAILS,
-                    payload: {stageIndex, stageKey: 'stage_order', stageValue: e.target.value}
+                    payload: {stageIndex, stageKey: 'order', stageValue: e.target.value}
                 })}/>
                 <Form.Group>
                     <Form.Label htmlFor='stage.type'>Select The Response Type</Form.Label>

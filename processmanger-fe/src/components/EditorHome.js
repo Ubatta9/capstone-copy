@@ -1,6 +1,12 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {initiateEditor, initiateFinishedProcessFollowings, SHOW_ADD_EDIT_PROCESS, SHOW_FINISHED_PROCESSES} from "../modules/editors";
+import {
+    GO_BACK,
+    initiateEditor,
+    initiateFinishedProcessFollowings,
+    SHOW_ADD_EDIT_PROCESS,
+    SHOW_FINISHED_PROCESSES
+} from "../modules/editors";
 import AllProcesses from "./editor/AllProcesses";
 import AddEditProcess from "./editor/AddEditProcess";
 import {Button} from "react-bootstrap";
@@ -31,14 +37,26 @@ export default function EditorHome({_useSelector = useSelector,_useDispatch = us
             </span>
         )
     }
+    // const goBackButton = () => {
+    //     return(
+    //         <span style={ {float:"right",  padding: '5px'}}>
+    //             <Button title ='GoBack' onClick = {() => {
+    //                 dispatch({type: GO_BACK})}}>GoBack</Button>
+    //         </span>
+    //     )
+    // }
 
     return(
         <div>
             Editor Home
+            <span style={ {float:"right",  padding: '5px'}}>
+                <Button variant="outline-primary" title ='GoBack' onClick = {() => {dispatch({type: GO_BACK})}}>GoBack</Button>
+                </span>
             <div>
             {showAddEditProcess?
                 <_AddEditProcess />:
                 addEditButton()
+
             }
 
             {

@@ -1,6 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Card, CardGroup} from "react-bootstrap";
-import {EDITOR_START, FOLLOWER_START} from "../modules/editors";
+import {EDITOR_START} from "../modules/editors";
+import {FOLLOWER_START} from "../modules/followers";
 import EditorHome from './EditorHome';
 import FollowerHome from "./FollowerHome";
 
@@ -8,7 +9,7 @@ import FollowerHome from "./FollowerHome";
 export default function Homepage({_useDispatch = useDispatch, _useSelector = useSelector}){
   const dispatch = _useDispatch();
   const isEditor  = _useSelector(state => state.editors.isEditor);
-  const isFollower = _useSelector(state => state.editors.isFollower);
+  const isFollower = _useSelector(state => state.followers.isFollower);
   const onEditorClick = () =>{
       dispatch({type: EDITOR_START})
   }

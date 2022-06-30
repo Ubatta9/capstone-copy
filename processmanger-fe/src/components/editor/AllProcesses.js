@@ -44,7 +44,7 @@ export default function AllProcesses({_useSelector = useSelector, _useDispatch =
                                                     </div>: <></>
                                                 }
                                                 {finished?
-                                                    <div>Follower's Response: {stage.responseText}</div>:<></>
+                                                    <div>Follower's Response: {stage.response}</div>:<></>
                                                 }
                                             </div>
 
@@ -52,7 +52,15 @@ export default function AllProcesses({_useSelector = useSelector, _useDispatch =
                                     </Accordion.Item>
                                 ))}
                             </Accordion>
-                            <span style={{padding:"10px"}}><Button title='Edit' onClick={()=>dispatch({type:SHOW_ADD_EDIT_PROCESS,payload:process})}>Edit</Button></span>
+                            {!finished?
+                                <span style={{padding: "10px"}}>
+                                    <Button
+                                        title='Edit'
+                                        onClick={() => dispatch({type: SHOW_ADD_EDIT_PROCESS,payload: process})}
+                                    >
+                                        Edit
+                                    </Button>
+                                </span> : null}
                             <span style={{padding:"10px"}}><Button title='Delete' onClick={()=> {onDelete(process)}}>Delete</Button></span>
 
                         </Card.Body>

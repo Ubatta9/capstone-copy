@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import editors from './modules/editors'
+import followers from'./modules/followers'
 import {Provider} from "react-redux";
 import 'bootstrap/dist/css/bootstrap.min.css';
 const handleAsync = storeAPI => next => action => {
@@ -15,7 +16,7 @@ const handleAsync = storeAPI => next => action => {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-    combineReducers({editors}),
+    combineReducers({editors,followers}),
     composeEnhancers(applyMiddleware(handleAsync))
 )
 

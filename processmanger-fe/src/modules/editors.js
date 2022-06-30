@@ -14,6 +14,7 @@ export const SUBMIT_PROCESS = "editors/add/SUBMIT_PROCESS"
 export const ADD_STAGE = "editors/add/ADD_STAGE"
 export const DELETE_PROCESS = 'editors/DELETE_PROCESS'
 export const SHOW_FINISHED_PROCESSES = 'editors/SHOW_FINISHED_PROCESSES'
+export const GO_BACK = 'editors/GO_BACK'
 
 const initialState = {
     isEditor: false,
@@ -160,6 +161,14 @@ export default function reducer(state = initialState, action) {
 
             }
         }
+        case GO_BACK:{
+            return {
+                ...state,
+                isEditor:false,
+                showAddEditProcess: false,
+                showFinishedProcess: false,
+            }
+        }
         default:
             return {
                 ...state
@@ -212,6 +221,7 @@ export function initiateAddProcess(_fetch = fetch) {
 export function initiateEditProcess(_fetch = fetch) {
     return async function editProcessSideEffect(dispatch, getState) {
         const store = getState();
+        debugger;
         const process = store.editors.currentProcess;
         const {processId} = process;
         const url = `http://localhost:8080/editor/editProcess?processId=${processId}`;
@@ -270,9 +280,30 @@ export function initiateFinishedProcessFollowings(_fetch = fetch) {
         const response = await _fetch(url)
 
         if (response.ok) {
-            const finishedResult = await response.json()
-            const finishedProcesses = finishedResult.map(res => res.processToken.process)
-            dispatch({type: UPDATE_FINISHED_PROCESSES, payload: finishedProcesses})
+            const finishedResults = await response.json();
+            const tokenObj = {};
+            const finishedProcess = []
+            for (let result of finishedResults){
+                if(!tokenObj[result.processToken.token]){
+                    tokenObj[result.processToken.token] = [];
+                }
+                tokenObj[result.processToken.token].push({...result});
+            }
+            for(let result of Object.values(tokenObj)){
+                const process = result[0]?.processToken.process||null;
+                if(process){
+                    for(let stageResult of result){
+                        const stage = process.stages.find(stage=> stage.id === stageResult.stageId);
+                        stage.response = stageResult.responseText;
+                    }
+                    finishedProcess.push(process)
+                }
+            }
+
+
+
+
+            dispatch({type: UPDATE_FINISHED_PROCESSES, payload: finishedProcess})
         }
     }
 }

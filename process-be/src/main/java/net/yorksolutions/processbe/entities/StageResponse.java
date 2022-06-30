@@ -1,5 +1,8 @@
 package net.yorksolutions.processbe.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;

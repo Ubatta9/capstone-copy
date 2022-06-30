@@ -1,5 +1,9 @@
 package net.yorksolutions.processbe.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -8,7 +12,7 @@ public class ProcessToken {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
-
+    @JsonProperty("token")
     String token;
 
     @ManyToOne
@@ -37,4 +41,5 @@ public class ProcessToken {
     public void setFinished(boolean finished) {
         isFinished = finished;
     }
+
 }
